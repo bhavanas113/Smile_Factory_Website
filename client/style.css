@@ -1,0 +1,875 @@
+/* Importing Luxury Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-blue: #004aad;
+    --secondary-teal: #00a8cc;
+    --dark-navy: #041e42;
+    --light-bg: #f4f7f6;
+    --white: #ffffff;
+    /* Added Premium Accents */
+    --accent-gold: #c5a059;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    /* NEW: Advanced Gradient for Text */
+    --gold-gradient: linear-gradient(135deg, #c5a059 0%, #f9f295 50%, #c5a059 100%);
+    /* USER UPDATE: High-Visibility Accent */
+    --back-orange: #ff7b00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navbar - UPDATED TO FIXED */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+    
+    /* ADDED: Fix bar logic */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    z-index: 1000;
+    transition: all 0.4s ease;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    letter-spacing: 1px;
+}
+
+/* Explicitly applying Dr. Siddhi's branding styles */
+.logo span {
+    color: var(--primary-blue);
+    font-weight: 400;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    margin-left: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark-navy);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: 0.3s;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-blue);
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.btn-nav {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal));
+    color: white !important;
+    padding: 12px 28px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 74, 173, 0.3);
+    /* NEW: Subtle pulse animation for the appointment button */
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* Hero Section - Upgraded with Overlay Depth */
+.hero {
+    height: 95vh; /* Slightly taller for impressive impact */
+    background: linear-gradient(rgba(4, 30, 66, 0.75), rgba(0, 74, 173, 0.6)), 
+                url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=2070') center/cover fixed; /* NEW: Added fixed parallax effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content {
+    max-width: 850px;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; /* NEW: Larger for authority */
+    margin-bottom: 25px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* NEW: Added highlight style for Dr. Siddhi's name in titles if needed */
+.hero-content h1 span {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-bottom: 35px;
+    opacity: 0.95;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 18px 45px;
+    background: var(--accent-gold);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-10px) scale(1.05); /* NEW: Advanced bounce effect */
+    background: var(--white);
+    color: var(--dark-navy);
+}
+
+/* Services Grid - Luxury Card Design */
+.services {
+    padding: 120px 10%;
+    background: radial-gradient(circle at top right, #ffffff, #eef2f3); /* NEW: Dynamic gradient */
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 70px;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; /* Larger */
+    color: var(--dark-navy);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: var(--accent-gold);
+    margin: 20px auto;
+    border-radius: 2px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.service-card {
+    background: var(--white);
+    padding: 65px 45px;
+    border-radius: 30px; /* More rounded for elegance */
+    text-align: center;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0,0,0,0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+/* NEW: Shine effect on hover */
+.service-card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: 0.6s;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(0, 74, 173, 0.08), transparent);
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.service-card:hover {
+    transform: translateY(-25px);
+    box-shadow: 0 40px 80px rgba(4, 30, 66, 0.12);
+}
+
+.service-card:hover::after,
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card i {
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 35px;
+    display: inline-block;
+    transition: 0.4s;
+}
+
+.service-card:hover i {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--dark-navy);
+}
+
+.service-card p {
+    font-size: 1.05rem;
+    color: #555;
+    font-weight: 300;
+}
+
+/* ==========================================
+   NEW: Smile Transformations Gallery CSS
+   ========================================== */
+.gallery {
+    padding: 120px 10%;
+    background: var(--white);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.image-box {
+    width: 100%;
+    height: 100%;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.gallery-info {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    padding: 40px;
+    background: linear-gradient(transparent, var(--dark-navy));
+    color: var(--white);
+    transition: 0.5s ease-in-out;
+    text-align: left;
+}
+
+.gallery-item:hover .gallery-info {
+    bottom: 0;
+}
+
+.gallery-item:hover .image-box img {
+    transform: scale(1.15);
+}
+
+.gallery-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--accent-gold);
+    margin-bottom: 10px;
+}
+
+.gallery-info p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* Footer - Elegant Deep Navy */
+footer {
+    background: var(--dark-navy);
+    color: white;
+    padding: 100px 10% 50px;
+    text-align: center;
+    position: relative;
+}
+
+/* NEW: Doctor signature branding in footer */
+footer h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-content p {
+    font-weight: 300;
+    opacity: 0.8;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.socials {
+    margin-top: 45px;
+}
+
+.socials i {
+    font-size: 2rem;
+    margin: 0 20px;
+    color: var(--accent-gold);
+    transition: all 0.4s ease;
+}
+
+.socials i:hover {
+    color: var(--white);
+    transform: translateY(-10px) rotate(360deg);
+}
+
+/* Custom Scrollbar for Premium Feel */
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--primary-blue), var(--secondary-teal));
+    border-radius: 10px;
+    border: 3px solid var(--light-bg);
+}
+
+/* ==========================================
+   NEW: MOBILE RESPONSIVE UPDATES
+   ========================================== */
+
+/* Menu Toggle Button Style */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.bar {
+    width: 28px;
+    height: 3px;
+    background-color: var(--dark-navy);
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 2px;
+}
+
+/* NEW: Luxury Mobile Bottom Navigation Styling */
+.mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 25px;
+    padding: 10px 20px;
+    z-index: 2000;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark-navy);
+    font-size: 0.65rem;
+    font-weight: 500;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+}
+
+.call-hub {
+    background: var(--primary-blue);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 74, 173, 0.4);
+    transform: translateY(-15px);
+    position: relative;
+}
+
+.call-hub i { margin: 0; font-size: 1.4rem; }
+
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    animation: ringPulse 2s infinite;
+    z-index: -1;
+}
+
+@keyframes ringPulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Media Query for Tablets and Mobile */
+@media (max-width: 992px) {
+    .navbar { padding: 15px 5%; }
+    .hero-content h1 { font-size: 3.5rem; }
+}
+
+@media (max-width: 768px) {
+    .mobile-bottom-nav { display: flex; } /* Show luxury bar on mobile */
+    body { 
+        padding-bottom: 80px; 
+        padding-top: 70px; /* Adjusted fixed header padding for mobile */
+    } 
+
+    .menu-toggle {
+        display: flex;
+        order: 2; /* Ensures it stays to the right of the logo */
+    }
+
+    /* FIX: Ensure logo doesn't squash and button doesn't overlap links */
+    .navbar {
+        padding: 10px 5%;
+        justify-content: space-between;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+        max-width: 70%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* FIX: Hide the overlapping top Book button on mobile specifically */
+    .nav-links .btn-nav {
+        display: none !important;
+    }
+
+    /* Transforming nav-links into a mobile-friendly drawer */
+    .nav-links {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        flex-direction: column;
+        background: var(--white);
+        width: 80%;
+        height: 100vh;
+        padding: 100px 40px;
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -15px 0 35px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        margin: 15px 0;
+        width: 100%;
+        margin-left: 0; /* Reset desktop margin */
+    }
+
+    .nav-links a {
+        font-size: 1.1rem;
+        width: 100%;
+        display: block;
+        padding: 10px 0;
+    }
+
+    /* Hero Section Mobile Fixes */
+    .hero {
+        height: 100vh; /* Full screen impact */
+        background-attachment: scroll; 
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        letter-spacing: -1px;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    .hero-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    /* FIX: Make hero buttons readable on small screens */
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        max-width: 280px;
+        padding: 15px 30px;
+    }
+
+    /* Grid layout adjustments */
+    .services, .gallery {
+        padding: 60px 5%;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .services-grid, .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .service-card {
+        padding: 40px 25px;
+    }
+
+    .top-header .header-flex {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+
+    .floating-contact { display: none; } /* Hide old whatsapp icon for new bar */
+}
+
+/* Hamburger Menu "X" Animation */
+#mobile-menu.is-active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+#mobile-menu.is-active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#mobile-menu.is-active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ==========================================
+   FINAL FIX FOR SMALL MOBILE LETTERS
+   ========================================== */
+@media (max-width: 480px) {
+    /* Force larger base font size for mobile */
+    html {
+        font-size: 16px !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.8rem !important; /* Makes title bold and readable */
+        line-height: 1.2 !important;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem !important; /* Larger description */
+        line-height: 1.5 !important;
+    }
+
+    .section-title {
+        font-size: 2.4rem !important;
+        margin-bottom: 40px !important;
+    }
+
+    .service-card h3 {
+        font-size: 1.6rem !important;
+    }
+
+    .service-card p {
+        font-size: 1.1rem !important; /* Prevents tiny text in boxes */
+        line-height: 1.6 !important;
+    }
+
+    .gallery-info h3 {
+        font-size: 1.4rem !important;
+    }
+
+    .gallery-info p {
+        font-size: 1rem !important;
+    }
+
+    footer h3 {
+        font-size: 2rem !important;
+    }
+
+    .footer-content p {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* NEW: Appointment Section Styling */
+.appointment-section {
+    padding: 100px 10%;
+    background: var(--light-bg);
+}
+
+.booking-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(4, 30, 66, 0.08);
+}
+
+.booking-form .input-group {
+    margin-bottom: 20px;
+}
+
+.booking-form input, .booking-form select {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.booking-form input:focus, .booking-form select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 10px rgba(0, 74, 173, 0.1);
+}
+
+.booking-form .btn-primary {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#formMessage {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+/* Fix for service card cursor */
+.service-card {
+    cursor: pointer;
+}
+
+/* ==========================================
+   UPDATED: VIDEO MODAL & HIGH-VIS BACK BUTTON
+   ========================================== */
+
+/* Video Modal Backdrop */
+.video-modal {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Slightly darker for better video focus */
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 95%;
+    max-width: 900px;
+    border-radius: 20px;
+    overflow: visible;
+}
+
+/* NEW: HEADER NAV FOR MODAL */
+.modal-header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+
+/* UPDATED: HIGH-VISIBILITY ORANGE BACK BUTTON */
+.close-video {
+    color: var(--back-orange);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    padding: 10px 20px;
+    border: 2px solid var(--back-orange);
+    border-radius: 50px;
+    background: rgba(255, 123, 0, 0.1);
+    box-shadow: 0 0 15px rgba(255, 123, 0, 0.2);
+    z-index: 3500;
+}
+
+.close-video i { 
+    font-size: 1.4rem; 
+}
+
+.close-video:hover { 
+    background: var(--back-orange); 
+    color: var(--white); 
+    box-shadow: 0 0 25px rgba(255, 123, 0, 0.6);
+    transform: translateX(-8px); /* Moves left to indicate "Back" */
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+
+/* Impressive Appointment Overlay */
+.appointment-overlay {
+    display: none;
+    position: fixed;
+    z-index: 4000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(4, 30, 66, 0.85);
+    backdrop-filter: blur(12px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.impressive-modal {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    padding: 45px;
+    border-radius: 35px;
+    position: relative;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+    text-align: center;
+    animation: modalSlideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-impressive {
+    position: absolute;
+    top: 25px; right: 25px;
+    font-size: 32px; cursor: pointer; color: #999;
+    transition: 0.3s;
+}
+
+.close-impressive:hover { color: var(--primary-blue); transform: rotate(90deg); }
+
+.impressive-modal h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--dark-navy);
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+}
+
+.gold-line {
+    width: 60px; height: 3px; background: var(--accent-gold); margin: 0 auto 30px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 16px 22px;
+    border: 1.5px solid #eee;
+    border-radius: 18px;
+    font-size: 1rem;
+    transition: 0.3s;
+    background: #fdfdfd;
+}
+
+.form-group input:focus { border-color: var(--primary-blue); background: #fff; }
+
+#popStatus {
+    font-size: 0.95rem;
+    margin-top: 15px;
+    min-height: 1.2rem;
+}

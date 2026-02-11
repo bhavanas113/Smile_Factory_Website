@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Dr. Siddhi's Smile Clinic | Dental Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 130px; /* Accounts for top-header + fixed navbar height */
+        }
+
+        /* MOBILE READABILITY IMPROVEMENTS */
+        @media (max-width: 768px) {
+            html { font-size: 16px; }
+            body { padding-top: 110px; line-height: 1.6; }
+            .hero-content h1 { font-size: 2.8rem !important; line-height: 1.2 !important; }
+            .hero-content p { font-size: 1.2rem !important; }
+            .section-title { font-size: 2.4rem !important; }
+            .service-card h3 { font-size: 1.6rem !important; }
+            .service-card p { font-size: 1.1rem !important; }
+            .navbar .nav-links .btn-nav { display: none; }
+            .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; }
+            .hero-btns { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+            .hero-btns a { width: 100%; max-width: 280px; padding: 18px 20px !important; font-size: 1.1rem !important; }
+        }
+
+        /* VIDEO MODAL STYLES */
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 5000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.98);
+            backdrop-filter: blur(15px);
+        }
+        .modal-content {
+            position: relative;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 95%;
+            max-width: 1000px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(255, 123, 0, 0.2);
+            background: #000;
+        }
+        .modal-header-nav {
+            background: #111;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .close-video {
+            color: #ff7b00; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+            padding: 8px 20px;
+            border: 2px solid #ff7b00;
+            border-radius: 50px;
+            background: rgba(255, 123, 0, 0.1);
+        }
+        .close-video i { font-size: 1.2rem; }
+        .close-video:hover { 
+            background: #ff7b00; 
+            color: #fff; 
+            box-shadow: 0 0 20px rgba(255, 123, 0, 0.5);
+            transform: translateX(-5px);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* APPOINTMENT MODAL STYLES */
+        .appointment-modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 4000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 30, 66, 0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-form-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        .close-modal-form {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #333;
+        }
+        .modal-form-container h2 {
+            margin-bottom: 25px;
+            color: #041e42;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+        }
+
+        /* Service Card Play Icon Overlay */
+        .service-card { position: relative; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .play-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            z-index: 10;
+        }
+        .play-overlay i { font-size: 1rem; margin-left: 3px; }
+        .service-card:hover .play-overlay {
+            background: #ff0000; 
+            color: white;
+            transform: scale(1.1) rotate(360deg);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">DR. SIDDHI'S <span>SMILE CLINIC</span></div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="javascript:void(0)" class="btn-nav" onclick="openAppointmentModal()">Appointment</a></li>
+        </ul>
+    </nav>
+
+    <div class="mobile-bottom-nav">
+        <a href="#home" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#services" class="nav-item">
+            <i class="fas fa-tooth"></i>
+            <span>Services</span>
+        </a>
+        <a href="tel:+918080301527" class="nav-item call-hub">
+            <div class="pulse-ring"></div>
+            <i class="fas fa-phone"></i>
+        </a>
+        <a href="#gallery" class="nav-item">
+            <i class="fas fa-images"></i>
+            <span>Gallery</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="openAppointmentModal()">
+            <i class="fas fa-calendar-check"></i>
+            <span>Book</span>
+        </a>
+    </div>
+
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <div class="modal-header-nav">
+                <div class="close-video" id="backToServices" onclick="closeVideoModal()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back</span>
+                </div>
+                <span style="color: #888; font-size: 0.8rem; font-family: sans-serif; letter-spacing: 1px;">DR. SIDDHI'S CLINICAL SERIES</span>
+            </div>
+            <div class="video-container">
+                <iframe id="videoFrame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="appointmentModalOverlay" class="appointment-modal-overlay">
+        <div class="modal-form-container" data-aos="zoom-in">
+            <span class="close-modal-form" onclick="closeAppointmentModal()">&times;</span>
+            <h2>Book Your Visit</h2>
+            <form id="modalBookingForm" class="booking-form">
+                <div class="form-group">
+                    <input type="text" id="modal_cust_name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="modal_cust_phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <select id="modal_requested_service" required>
+                        <option value="" disabled selected>Select Service</option>
+                        <option value="Root Canal">Root Canal</option>
+                        <option value="Extraction">Extraction</option>
+                        <option value="Scaling">Scaling & Bleaching</option>
+                        <option value="FPD">FPD & RPD</option>
+                        <option value="Restoration">Restoration</option>
+                        <option value="Implants">Dental Implants</option>
+                        <option value="Other">Other / General Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="modal_appointment_date" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Confirm Booking</button>
+            </form>
+            <div id="modalFormStatus" style="margin-top: 15px; text-align: center;"></div>
+        </div>
+    </div>
+
+    <section id="home" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Your Smile, <span>Our Priority</span></h1>
+            <p>Advanced dental care with a gentle touch. Specialized in Root Canals, Implants, and Aesthetic Dentistry.</p>
+            <div class="hero-btns">
+                <a href="#services" class="btn-primary">Explore Services</a>
+                <a href="tel:+918080301527" class="btn-secondary" style="border: 2px solid white; color: white; padding: 18px 45px; border-radius: 50px; text-decoration: none; font-weight: 600; text-transform: uppercase; margin-left: 15px; display: inline-flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-phone-alt"></i> Call Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Specialized Services</h2>
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100" onclick="playVideo('jH_P-W_I-nI')">
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-tooth"></i>
+                    <h3>Root Canal</h3>
+                    <p>Painless therapy to save your natural teeth. Click to watch how it works.</p>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200" onclick="playVideo('1onTAb3K_M4')">
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-hand-holding-medical"></i>
+                    <h3>Extraction</h3>
+                    <p>Safe and comfortable removal of problematic teeth. Click to watch video.</p>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300" onclick="playVideo('fSStm_4G_nQ')">
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-sparkles"></i>
+                    <h3>Scaling</h3>
+                    <p>Professional cleaning for a healthier smile. Click to watch the process.</p>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400" onclick="playVideo('f9M_y8uYypo')">
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-crown"></i>
+                    <h3>Braces</h3>
+                    <p>Perfectly align your teeth with modern orthodontic care. Click for video.</p>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="500" onclick="playVideo('BvS9p8u7Iio')">
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-fill-drip"></i>
+                    <h3>Teeth Whitening</h3>
+                    <p>Brighten your smile in just one session. Click to watch the transformation.</p>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="600" onclick="playVideo('7SInW6FvHTo')">
+                    <div class="play-overlay"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-shield-virus"></i>
+                    <h3>Dental Implants</h3>
+                    <p>Permanent solutions for missing teeth. Click to watch modern implant technology.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="appointment" class="appointment-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Book An Appointment</h2>
+            <form id="bookingForm" class="booking-form" data-aos="fade-up">
+                <div class="form-group">
+                    <input type="text" id="cust_name" name="cust_name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="cust_phone" name="cust_phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <select id="requested_service" name="requested_service" required>
+                        <option value="" disabled selected>Select Service</option>
+                        <option value="Root Canal">Root Canal</option>
+                        <option value="Extraction">Extraction</option>
+                        <option value="Scaling">Scaling & Bleaching</option>
+                        <option value="FPD">FPD & RPD</option>
+                        <option value="Restoration">Restoration</option>
+                        <option value="Implants">Dental Implants</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="appointment_date" name="appointment_date" required>
+                </div>
+                <button type="submit" class="btn-primary">Confirm Booking</button>
+            </form>
+            <div id="formStatus" style="margin-top: 15px; text-align: center;"></div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Smile Transformations</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="image-box">
+                        <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1974" alt="Root Canal Work">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Root Canal Therapy</h3>
+                        <p>Preserving natural structure with advanced endodontics.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="image-box">
+                        <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=2070" alt="Dental Implant Work">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Dental Implants</h3>
+                        <p>Modern restoration for missing teeth and full function.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="image-box">
+                        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1932" alt="Aesthetic Work">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Smile Makeover</h3>
+                        <p>Combining Scaling & Restoration for a radiant look.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <h3>Dr. Siddhi's Smile Clinic</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Morewadi near petrol pump, Kolhapur</p>
+            <p><i class="fas fa-phone"></i> +91 8080301527</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/918080301527"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="copyright">© 2026 Dr. Siddhi's Smile Clinic. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Video Modal Logic
+        function playVideo(videoID) {
+            const modal = document.getElementById('videoModal');
+            const frame = document.getElementById('videoFrame');
+            const origin = window.location.origin;
+            frame.src = `https://www.youtube.com/embed/${videoID}?autoplay=1&rel=0&modestbranding=1&origin=${origin}`;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const frame = document.getElementById('videoFrame');
+            frame.src = "";
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Appointment Modal Logic
+        function openAppointmentModal() {
+            document.getElementById('appointmentModalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModalOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('is-active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Database Integration Logic (Node + MySQL)
+        async function processBooking(event, data, statusElement, isModal = false) {
+            event.preventDefault();
+            statusElement.innerText = "Processing...";
+            try {
+                const response = await fetch('http://localhost:5000/api/book', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    statusElement.innerText = "✅ Appointment Confirmed!";
+                    statusElement.style.color = "green";
+                    event.target.reset();
+                    if(isModal) setTimeout(closeAppointmentModal, 2500);
+                } else {
+                    statusElement.innerText = "❌ Booking Failed.";
+                    statusElement.style.color = "red";
+                }
+            } catch (error) {
+                statusElement.innerText = "❌ Connection Error.";
+            }
+        }
+
+        document.getElementById('bookingForm').addEventListener('submit', (e) => {
+            const data = {
+                name: document.getElementById('cust_name').value,
+                phone: document.getElementById('cust_phone').value,
+                service: document.getElementById('requested_service').value,
+                date: document.getElementById('appointment_date').value
+            };
+            processBooking(e, data, document.getElementById('formStatus'));
+        });
+
+        document.getElementById('modalBookingForm').addEventListener('submit', (e) => {
+            const data = {
+                name: document.getElementById('modal_cust_name').value,
+                phone: document.getElementById('modal_cust_phone').value,
+                service: document.getElementById('modal_requested_service').value,
+                date: document.getElementById('modal_appointment_date').value
+            };
+            processBooking(e, data, document.getElementById('modalFormStatus'), true);
+        });
+    </script>
+</body>
+</html>
