@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load environment variables
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -6,7 +7,8 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 const app = express();
-const PORT = 5000;
+// Render uses a dynamic port, so we use process.env.PORT
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,7 +24,7 @@ const client = new Client({
     puppeteer: {
         handleSIGINT: false,
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' 
+        // Removed local Windows Chrome path so it works on Render (Linux)
     }
 });
 
@@ -42,18 +44,25 @@ client.on('auth_failure', () => console.error('❌ WhatsApp Auth Failed. Try del
 client.initialize();
 
 // ==========================================
-// DATABASE (Matches your Bhvana entry)
+// DATABASE (Updated for Aiven Cloud)
 // ==========================================
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',      
-    password: 'shubha',      
-    database: 'clinic_website' 
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'shubha',
+    database: process.env.DB_NAME || 'clinic_website',
+    ssl: {
+        rejectUnauthorized: false // MANDATORY FOR AIVEN
+    }
 });
 
 db.connect((err) => {
-    if (err) console.error('MySQL Connection Error:', err);
-    else console.log('✅ Database Connected: clinic_website');
+    if (err) {
+        console.error('❌ MySQL Connection Error:', err.message);
+    } else {
+        console.log('✅ Database Connected to Aiven: ' + (process.env.DB_NAME || 'clinic_website'));
+    }
 });
 
 // ==========================================
@@ -104,4 +113,9 @@ app.get('/api/appointments', (req, res) => {
     });
 });
 
-app.listen(PORT, () => console.log(`Server running: http://localhost:${PORT}`));
+// Root route for Render to check if server is alive
+app.get('/', (req, res) => {
+    res.send('Smile Factory Server is Running!');
+});
+
+app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
