@@ -23,8 +23,16 @@ const client = new Client({
     authStrategy: new LocalAuth(), 
     puppeteer: {
         handleSIGINT: false,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        // Removed local Windows Chrome path so it works on Render (Linux)
+        // ADDED: Arguments for stable performance on Linux/Render
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-setuid-sandbox',
+            '--no-zygote'
+        ],
+        // ADDED: Pointing to the Linux Chrome path
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable'
     }
 });
 
