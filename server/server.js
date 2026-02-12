@@ -8,7 +8,7 @@ const qrcode = require('qrcode-terminal');
 
 const app = express();
 // Render uses a dynamic port, so we use process.env.PORT
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,21 +23,22 @@ const client = new Client({
     authStrategy: new LocalAuth(), 
     puppeteer: {
         handleSIGINT: false,
-        // ADDED: Arguments for stable performance on Linux/Render
+        // UPDATED: Arguments for stable performance on Linux/Docker/Render
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-setuid-sandbox',
-            '--no-zygote'
+            '--no-zygote',
+            '--single-process'
         ],
-        // ADDED: Pointing to the Linux Chrome path
+        // UPDATED: Pointing to the Linux Chrome path provided by the Dockerfile
         executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable'
     }
 });
 
 client.on('qr', (qr) => {
     console.log('⚠️ ACTION REQUIRED: Scan this QR code to start receiving notifications!');
+    // This will print the QR code in the Render "Logs" tab
     qrcode.generate(qr, { small: true });
 });
 
@@ -55,11 +56,11 @@ client.initialize();
 // DATABASE (Updated for Aiven Cloud)
 // ==========================================
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'shubha',
-    database: process.env.DB_NAME || 'clinic_website',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 22333,
+    user: process.env.DB_USER || 'avnadmin',
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'defaultdb',
     ssl: {
         rejectUnauthorized: false // MANDATORY FOR AIVEN
     }
@@ -69,7 +70,7 @@ db.connect((err) => {
     if (err) {
         console.error('❌ MySQL Connection Error:', err.message);
     } else {
-        console.log('✅ Database Connected to Aiven: ' + (process.env.DB_NAME || 'clinic_website'));
+        console.log('✅ Database Connected to Aiven: ' + (process.env.DB_NAME || 'defaultdb'));
     }
 });
 
