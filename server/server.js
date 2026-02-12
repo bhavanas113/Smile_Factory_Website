@@ -23,7 +23,7 @@ const client = new Client({
     authStrategy: new LocalAuth(), 
     puppeteer: {
         handleSIGINT: false,
-        // UPDATED: Arguments for stable performance on Linux/Docker/Render
+        // Arguments for stable performance on Linux/Docker/Render
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox',
@@ -31,8 +31,8 @@ const client = new Client({
             '--no-zygote',
             '--single-process'
         ],
-        // UPDATED: Pointing to the Linux Chrome path provided by the Dockerfile
-        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable'
+        // FIXED: Pointing to the standard Linux Chrome path in the Puppeteer Docker image
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome'
     }
 });
 
@@ -71,6 +71,23 @@ db.connect((err) => {
         console.error('❌ MySQL Connection Error:', err.message);
     } else {
         console.log('✅ Database Connected to Aiven: ' + (process.env.DB_NAME || 'defaultdb'));
+        
+        // --- AUTO-CREATE TABLE LOGIC ---
+        const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS appointments (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            phone VARCHAR(20) NOT NULL,
+            service VARCHAR(255),
+            appointment_date VARCHAR(100),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`;
+
+        db.query(createTableQuery, (err) => {
+            if (err) console.error("❌ Error creating table:", err.message);
+            else console.log("✅ Table 'appointments' is ready in Aiven!");
+        });
+        // -------------------------------
     }
 });
 
